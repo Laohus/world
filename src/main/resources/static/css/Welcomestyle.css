@@ -1,0 +1,100 @@
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{min-height:100vh;}
+
+
+
+.side-navbar{width:275px;height:100%;margin-left:0;background-color:#100901;transition:.5s;}
+
+.nav-link:active,.nav-link:focus,.nav-link:hover{background-color:#ffffff26}
+
+.my-container{transition:.4s}
+
+.active-nav{
+    margin-left:-275px;
+}
+
+.active-cont{margin-left:0;}
+
+
+
+.my-container input{border-radius:2rem;padding:2px 20px}
+
+
+.avatars{
+    position: absolute;
+    width:80px;
+    height: 80px;
+    margin-top: 5%;
+    margin-left: 90px;
+}
+img {
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    transition: all 2.0s;
+}
+img:hover{
+    transform: rotate(360deg);
+}
+
+.personal_data{
+    position: absolute;
+    margin-top: 50%;
+    margin-left: 55px;
+    width:185px;
+    height: 80px;
+    font-size: 15px;
+    color: white;
+}
+.time{
+
+    height: 40%;
+    width: 100%;
+}
+
+
+.navbar-menu{
+    height: 35%;
+    width: 100%;
+
+}
+.photo{
+    height: 30%;
+    width: 100%;
+    margin-top: 0;
+}
+.menu{
+
+    height: 23%;
+    width: 100%;
+
+}
+.layui-laydate-content, .layui-laydate-footer{
+    background-color: black;
+}
+
+.userinfo{
+    margin-top: 15%;
+    margin-left: -100px;
+    height: 400px;
+    width: 600px;
+    background-color: white;
+    opacity: 0.8;
+
+}
+.users{
+    display: none;
+}
+
+
+
+#now_time{
+    position: fixed;
+    bottom: 0;
+}
+
+
+
+
