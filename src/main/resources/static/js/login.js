@@ -41,4 +41,20 @@ $(document).ready(function() {
 
     });
 
+    $("#qqLoginBtn").click(function() {
+
+        window.open('https://graph.qq.com/oauth2.0/authorize?client_id=101981464&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FWelcome', 'oauth2Login_10576' ,'height=525,width=585, toolbar=no, menubar=no, scrollbars=no, status=no, location=yes, resizable=yes')
+
+        // QC.Login({
+        //         btnId:"qqLoginBtn",
+        //         size:"B_M"
+        //     },
+        //     function (reqData,opts){
+        //
+        //     }
+        // );
+    })
+
+
+
 });

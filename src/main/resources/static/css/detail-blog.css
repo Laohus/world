@@ -1,0 +1,42 @@
+.time-line{
+    width: 70%;
+}
+.personal{
+    width: 26%;
+    margin-left: 2%;
+}
+.user{
+    width: 90%;
+    height: 36%;
+    margin-left: 3%;
+    margin-top: 10%;
+    background-color: white;
+
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+    -moz-box-shadow: 0 0 4px #000000;
+    -webkit-box-shadow: 0 0 4px #000000;
+    box-shadow: 0 0 4px #000000;
+    opacity: 0.75;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 75);
+    filter: alpha(opacity = 75);
+}
+.add-blog{
+    margin-top: 80%;
+    margin-left: 70%;
+}
+
+
+.layui-layer-molv{
+
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+    -moz-box-shadow: 0 0 4px #000000;
+    -webkit-box-shadow: 0 0 4px #000000;
+    box-shadow: 0 0 4px #000000;
+    opacity: 0.85;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 85);
+    filter: alpha(opacity = 85);
+}

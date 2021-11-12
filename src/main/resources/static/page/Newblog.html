@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增</title>
+
+
+    <link rel="stylesheet" href="../third/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+    <link rel="stylesheet" href="../css/newblog.css"  media="all">
+
+    <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
+    <script src="../third/layui/layui.js" charSet="utf-8"></script>
+
+</head>
+<body>
+<div class="Add-blog">
+<form class="layui-form" id="blogs">
+    <br>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分&nbsp;&nbsp;&nbsp;类</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="like[1]" title="Java">
+            <input type="checkbox" name="like[2]" title="Python">
+            <input type="checkbox" name="like[3]" title="系统">
+            <input type="checkbox" name="like[4]" title="自动化">
+            <input type="checkbox" name="like[5]" title="性能">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标&nbsp;&nbsp;&nbsp;题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" id="Blog-title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">内&nbsp;&nbsp;&nbsp;容</label>
+        <div class="layui-input-block">
+            <div id="vditor" class="vditor"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+        </div>
+    </div>
+    <br>
+</form>
+</div>
+
+
+<script>
+
+
+    let vditor = new Vditor('vditor', {
+        "height": 500,
+        "width":750,
+        "theme": "classic",
+        "icon": "material",
+        "cache": {
+            "enable": false
+        },
+        "preview": {
+            "theme": {
+                "current": "dark"
+            }
+        },
+        upload: {
+            accept: 'image/*,.mp3, .wav, .rar',
+            token: 'test',
+            url: '/api/upload/editor',
+            linkToImgUrl: '/api/upload/fetch',
+            filename (name) {
+                return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+                replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
+                replace('/\\s/g', '')
+            },
+
+        },
+    });
+
+
+
+    const cnt = vditor.getValue();
+
+
+    console.log(cnt);
+
+    layui.use('form', function(){
+        const form = layui.form;
+
+        form.on('submit(formDemo)', function(data){
+
+            layer.msg(JSON.stringify(data.field));
+
+            return false;
+        });
+    });
+
+
+</script>
+<style>
+    .vditor-reset{color: black;}
+    .layui-input-block{
+        width: 100%;
+    }
+    #Blog-title{
+        width: 130%;
+    }
+    .layui-form-label{
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>

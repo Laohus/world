@@ -1,0 +1,29 @@
+body{
+    height: 100%;
+    width: 100%;
+}
+
+.content{
+    position: fixed;
+    width: 60%;
+    height: 70%;
+    margin-left: 20%;
+    margin-top: 5%;
+
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+    -moz-box-shadow: 0 0 4px #000000;
+    -webkit-box-shadow: 0 0 4px #000000;
+    box-shadow: 0 0 4px #000000;
+    opacity: 0.95;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 95);
+    filter: alpha(opacity = 95);
+}
+
+.Add-blog{
+    width: 62%;
+    height: 95%;
+
+}
+
