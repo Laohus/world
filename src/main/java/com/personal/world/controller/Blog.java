@@ -14,35 +14,12 @@ public class Blog {
 
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".png"};
 
-    @RequestMapping("/api/upload/editor")
-    public boolean editMovieInfo(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-
-//        boolean isFlag = false;
-//        for (String type : IMAGE_TYPE) {
-//            System.out.println(file.getOriginalFilename());
-//            if (StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), type)) {
-//                isFlag = true;
-//                break;
-//            }
-//        }
+//    @RequestMapping("/api/upload/editor")
+//    public boolean editMovieInfo(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 //
-//        if (isFlag) {
-//            PicUploadResult picUploadResult = fileUploadService.uplodadImg(file, request);
-//            boolean isLegal = picUploadResult.isLegal();
+//        return true;
 //
-//            if (isLegal) {
-//                Map resMap = new HashMap<>();
-//                resMap.put("imgPath", picUploadResult.getImgPath());
-//                return R.ok(resMap);
-//            } else {
-//                return R.error("图片上传有误");
-//            }
-//        } else {
-//            return R.error("上传的图片格式必须为:bmp,jpg,jpeg,png");
-//        }
-        return true;
-
-
-    }
+//
+//    }
 
 }

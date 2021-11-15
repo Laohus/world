@@ -65,37 +65,37 @@
                 "current": "dark"
             }
         },
-        upload: {
-            accept: 'image/*,.mp3, .wav, .rar',
-            token: 'test',
-            url: '/api/upload/editor',
-            linkToImgUrl: '/api/upload/fetch',
-            filename (name) {
-                return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
-                replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
-                replace('/\\s/g', '')
-            },
-
-        },
+        // upload: {
+        //     accept: 'image/*,.mp3, .wav, .rar',
+        //     token: 'test',
+        //     url: '/api/upload/editor',
+        //     linkToImgUrl: '/api/upload/fetch',
+        //     filename (name) {
+        //         return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+        //         replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
+        //         replace('/\\s/g', '')
+        //     },
+        //
+        // },
     });
 
 
 
-    const cnt = vditor.getValue();
+    // const cnt = vditor.getValue();
+    //
+    //
+    // console.log(cnt);
 
-
-    console.log(cnt);
-
-    layui.use('form', function(){
-        const form = layui.form;
-
-        form.on('submit(formDemo)', function(data){
-
-            layer.msg(JSON.stringify(data.field));
-
-            return false;
-        });
-    });
+    // layui.use('form', function(){
+    //     const form = layui.form;
+    //
+    //     form.on('submit(formDemo)', function(data){
+    //
+    //         layer.msg(JSON.stringify(data.field));
+    //
+    //         return false;
+    //     });
+    // });
 
 
 </script>
