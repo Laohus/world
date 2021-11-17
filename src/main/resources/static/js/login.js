@@ -41,19 +41,48 @@ $(document).ready(function() {
 
     });
 
+
     $("#qqLoginBtn").click(function() {
+        QC.Login({
+                btnId:"qqLoginBtn",
+                size:"B_M",
+                scope:"all",
+            }
+        );
+    });
 
-        window.open('https://graph.qq.com/oauth2.0/authorize?client_id=101981464&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FWelcome', 'oauth2Login_10576' ,'height=525,width=585, toolbar=no, menubar=no, scrollbars=no, status=no, location=yes, resizable=yes')
+    // console.log("22222");
+    //
+    // if(QC.Login.check()){
+    //     console.log("111111");
+    //     QC.Login.getMe(function(openId, accessToken){
+    //         // localStorage.setItem("accessToken",accessToken);
+    //         // console.log(accessToken);
+    //
+    //         $.ajax({
+    //             url:"/login/qqaccount",
+    //             type:"POST",
+    //             datatype:"JSON",
+    //             data: accessToken,
+    //             success:function (data) {
+    //                 if(data.code==="0"){
+    //                     $("#error").text("");
+    //                     $(location).prop("href","/Welcome")
+    //                     return true;
+    //                 }else {
+    //                     $("input[ type='text']").val("");
+    //                     $("input[ type='password']").val("");
+    //                     $("#error").text(data.errormsg);
+    //                     return false;
+    //                 }
+    //
+    //             }
+    //         })
+    //
+    //     })
+    //
+    // }
 
-        // QC.Login({
-        //         btnId:"qqLoginBtn",
-        //         size:"B_M"
-        //     },
-        //     function (reqData,opts){
-        //
-        //     }
-        // );
-    })
 
 
 

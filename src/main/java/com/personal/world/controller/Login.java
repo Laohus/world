@@ -49,4 +49,14 @@ public class Login extends Responseinfo{
         return result;
 
     }
+
+    @RequestMapping("/login/qqaccount")
+    public String LoginQQAccount(HttpServletRequest request , HttpSession session){
+        System.out.println("aaaa");
+
+        System.out.println(request);
+
+        return "true";
+
+    }
 }
