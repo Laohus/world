@@ -13,7 +13,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/")
-                .excludePathPatterns("/login/account","/css/**","/image/**","/js/**", "/third/**");
+                .excludePathPatterns("/login/account","/login/qq","/css/**","/image/**","/js/**", "/third/**");
     }
 
 

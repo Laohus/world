@@ -88,10 +88,9 @@ public class UserDao extends User {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`email`,`age`,`sex`,`lines`,`jobs`) VALUES(?,?,?,?,?,?,?,?);";
+        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`) VALUES(?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,UserData.get("username"),UserData.get("password"),formatter.format(date),
-                UserData.get("email"),UserData.get("age"),UserData.get("sex"),UserData.get("line"),
-                UserData.get("jobs"))>0;
+                UserData.get("age"),UserData.get("sex"),UserData.get("source"))>0;
 
     }
 

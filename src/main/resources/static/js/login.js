@@ -42,48 +42,6 @@ $(document).ready(function() {
     });
 
 
-    $("#qqLoginBtn").click(function() {
-        QC.Login({
-                btnId:"qqLoginBtn",
-                size:"B_M",
-                scope:"all",
-            }
-        );
-    });
-
-    // console.log("22222");
-    //
-    // if(QC.Login.check()){
-    //     console.log("111111");
-    //     QC.Login.getMe(function(openId, accessToken){
-    //         // localStorage.setItem("accessToken",accessToken);
-    //         // console.log(accessToken);
-    //
-    //         $.ajax({
-    //             url:"/login/qqaccount",
-    //             type:"POST",
-    //             datatype:"JSON",
-    //             data: accessToken,
-    //             success:function (data) {
-    //                 if(data.code==="0"){
-    //                     $("#error").text("");
-    //                     $(location).prop("href","/Welcome")
-    //                     return true;
-    //                 }else {
-    //                     $("input[ type='text']").val("");
-    //                     $("input[ type='password']").val("");
-    //                     $("#error").text(data.errormsg);
-    //                     return false;
-    //                 }
-    //
-    //             }
-    //         })
-    //
-    //     })
-    //
-    // }
-
-
-
 
 });
+

@@ -1,14 +1,23 @@
 package com.personal.world.controller;
 
+import com.personal.world.data.LoginQQ;
 import com.personal.world.data.Resultinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.personal.world.data.Responseinfo;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.personal.world.Dao.UserDao;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @ResponseBody
@@ -50,13 +59,40 @@ public class Login extends Responseinfo{
 
     }
 
-    @RequestMapping("/login/qqaccount")
-    public String LoginQQAccount(HttpServletRequest request , HttpSession session){
-        System.out.println("aaaa");
+    @RequestMapping("/login/qq")
+    public Resultinfo Loginqq (HttpServletRequest request , HttpSession session){
 
-        System.out.println(request);
+        Resultinfo result = new Resultinfo();
 
-        return "true";
+        String nickname = request.getParameter("nickname");
+        String ResultUser = userService.QueryUser(nickname);
+        System.out.println(nickname);
+        System.out.println(ResultUser);
+
+        if(ResultUser.equals("1")){
+            session.setAttribute("username",nickname);
+            result.setCode(getSUCCESS_CODE());
+            result.setMsg(getACCOUNT_SUCCESS());
+        }else {
+            Map<String,String> UserData = new HashMap<>();
+            UserData.put("name",nickname);
+            UserData.put("password","");
+            UserData.put("age",request.getParameter("year"));
+            UserData.put("sex",request.getParameter("gender"));
+            UserData.put("source","qq");
+            boolean res = userService.adduser(UserData);
+            if(res){
+                session.setAttribute("username",nickname);
+                result.setCode(getSUCCESS_CODE());
+                result.setMsg(getACCOUNT_SUCCESS());
+            }else {
+                result.setCode(getFAIL_CODE());
+                result.setErrormsg(getACCOUNT_ERROR());
+            }
+
+        }
+        return result;
 
     }
+
 }
