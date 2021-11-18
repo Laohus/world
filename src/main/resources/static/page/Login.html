@@ -90,12 +90,14 @@
 <script type="text/javascript">
 
 
+
+
     $("#qqLoginBtn").click(function() {
+
         const url = "https://graph.qq.com/oauth2.0/authorize?client_id=" + QC.getAppId() + "&response_type=token&scope=all&redirect_uri=" + encodeURIComponent("http://www.personalworldw.top/Welcome");
         return window.open(url, 'oauth2Login_10663' ,'');
+
     });
-
-
     if(QC.Login.check()){
         let access_token;
         let open_id;
@@ -113,12 +115,12 @@
                     data: JSON.stringify(s.data),
                     success:function (data) {
                         if(data.code==="0"){
-                            $(location).prop("href","/Welcome")
+                            $(location).prop("href","/Welcome");
                             return true;
                         }else {
                             return false;
-
                         }
+
 
                     }
                 })
@@ -126,9 +128,12 @@
             })
             .error(function(f){
                 console.log("获取用户信息失败！");
+                return false
             })
             .complete(function(c){
+                QC.Login.signOut();
                 console.log("获取用户信息完成！");
+                return true
             })
     }
 

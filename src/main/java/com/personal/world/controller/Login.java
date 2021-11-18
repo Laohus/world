@@ -71,9 +71,8 @@ public class Login extends Responseinfo{
             result.setCode(getSUCCESS_CODE());
             result.setMsg(getACCOUNT_SUCCESS());
         }else {
-            session.setAttribute("username",nickname);
-            Map<String,String> UserData = new HashMap<>();
 
+            Map<String,String> UserData = new HashMap<>();
             UserData.put("name",nickname);
             UserData.put("password","");
             UserData.put("age",data.getString("year"));
@@ -81,6 +80,7 @@ public class Login extends Responseinfo{
             UserData.put("source","qq");
             boolean res = userService.adduser(UserData);
             if(res){
+                session.setAttribute("username",nickname);
                 result.setCode(getSUCCESS_CODE());
                 result.setMsg(getACCOUNT_SUCCESS());
             }else {
