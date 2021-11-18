@@ -66,13 +66,12 @@ public class Login extends Responseinfo{
 
         String nickname = data.getString("nickname");
         String ResultUser = userService.QueryUser(nickname);
-
         if(ResultUser.equals("1")){
             session.setAttribute("username",nickname);
             result.setCode(getSUCCESS_CODE());
             result.setMsg(getACCOUNT_SUCCESS());
         }else {
-
+            session.setAttribute("username",nickname);
             Map<String,String> UserData = new HashMap<>();
 
             UserData.put("name",nickname);
@@ -82,7 +81,6 @@ public class Login extends Responseinfo{
             UserData.put("source","qq");
             boolean res = userService.adduser(UserData);
             if(res){
-                session.setAttribute("username",nickname);
                 result.setCode(getSUCCESS_CODE());
                 result.setMsg(getACCOUNT_SUCCESS());
             }else {

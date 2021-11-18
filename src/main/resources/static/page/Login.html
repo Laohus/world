@@ -104,22 +104,18 @@
             open_id = openId;
         });
         QC.api("get_user_info", {})
-            .success(function (s){
-                console.log(JSON.stringify(s.data));
+        .success(function (s){
                 $.ajax({
                     url:"/login/qq",
                     type:"POST",
                     datatype:"JSON",
+                    contentType: "application/json;charset=UTF-8",
                     data: JSON.stringify(s.data),
                     success:function (data) {
                         if(data.code==="0"){
-                            $("#error").text("");
                             $(location).prop("href","/Welcome")
                             return true;
                         }else {
-                            $("input[ type='text']").val("");
-                            $("input[ type='password']").val("");
-                            $("#error").text(data.errormsg);
                             return false;
 
                         }
