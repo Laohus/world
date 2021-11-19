@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @Service
-public class ProjectDao {
+public class BlogDao {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -18,14 +20,17 @@ public class ProjectDao {
         this.jdbcTemplate = JdbcTemplate;
     }
 
-    /*添加项目 */
-    public boolean AddProject(Map<String, String> UserData){
+    /*添加博客 */
+    public boolean AddBlog(Map<String, String> BlogData){
 
-        String Key = "INSERT into`project` (`name`,`serial`,`content`,`creator`,`chakra`) VALUES(?,?,?,?,?);";
-        return jdbcTemplate.update(Key,UserData.get("project"),UserData.get("serial"),
-                UserData.get("content"),UserData.get("creator"),UserData.get("chakra"))>0;
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        String Key = "INSERT into`blog` (`name`,`category`,`createtime`,`user`,`content`) VALUES(?,?,?,?,?);";
+        return jdbcTemplate.update(Key,BlogData.get("BlogTitle"),BlogData.get("ClassLfy"),
+                formatter.format(date),BlogData.get("username"),BlogData.get("content"))>0;
     }
+
 
     /*项目 */
     public List<Map<String, Object>> QueryProjectData(){
