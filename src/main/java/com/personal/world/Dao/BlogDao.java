@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class BlogDao {
@@ -25,10 +24,28 @@ public class BlogDao {
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatterLine= new SimpleDateFormat("yyyy年MM月dd日");
 
-        String Key = "INSERT into`blog` (`name`,`category`,`createtime`,`user`,`content`) VALUES(?,?,?,?,?);";
+        String Key = "INSERT into`blog` (`name`,`category`,`createtime`,`user`,`content`,`timeline`) VALUES(?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,BlogData.get("BlogTitle"),BlogData.get("ClassLfy"),
-                formatter.format(date),BlogData.get("username"),BlogData.get("content"))>0;
+                formatter.format(date),BlogData.get("username"),BlogData.get("content"),formatterLine.format(date))>0;
+    }
+
+
+    /*博客中时间线查询*/
+    public List<Map<String, Object>> QueryTimeLine(String name){
+
+        String Key ="SELECT DISTINCT timeline FROM `blog` where user = ?;";
+
+        return jdbcTemplate.queryForList(Key,name);
+    }
+
+    /*博客中时间线查询博客名*/
+    public List<Map<String, Object>> QueryTimeName(String name){
+
+        String Key ="SELECT `name` FROM blog WHERE timeline = ?;";
+
+        return jdbcTemplate.queryForList(Key,name);
     }
 
 
@@ -48,12 +65,7 @@ public class BlogDao {
 
     }
 
-    /*项目名查询*/
-    public Boolean QueryProject(String name){
 
-        String Key ="SELECT count(*) FROM `project` WHERE NAME=? ;";
-        return !Objects.equals(jdbcTemplate.queryForObject(Key, String.class, name), "1");
-    }
 
     /*项目数查询*/
     public String QueryProjectcount(){

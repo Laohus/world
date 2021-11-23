@@ -25,12 +25,15 @@
 
         <div class="photo">
             <div class="avatars">
-                <img src="../image/login/avatars.jpg">
+<!--                <img src="../image/login/avatars.jpg">-->
+                <img id="photo">
             </div>
             <div class="personal_data">
-                <i>昵&nbsp; &nbsp; 称：凤尾鱼</i><br>
-                <i>网&nbsp; &nbsp; 龄：6年</i><br>
-                <i>发表数：100</i><br>
+<!--                <i id="username">昵&nbsp; &nbsp; 称：凤尾鱼</i><br>-->
+                <i id="username"></i><br>
+                <i id="age"></i><br>
+                <i id="sex"></i><br>
+                <i id="count"></i><br>
             </div>
 
         </div>
@@ -170,6 +173,33 @@
 
         })
 
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "/UserInfo",
+            type: "POST",
+            datatype: "JSON",
+            success: function (data) {
+                if (data.code === "0") {
+
+                    const myDate = new Date();
+                    const age = myDate.getFullYear() - data.data[0].age;
+
+                    $("#photo").attr("src",data.data[0].Head);
+                    $("#username").text("昵\xa0\xa0\xa0\xa0称："+data.data[0].name);
+                    $("#age").text("网\xa0\xa0\xa0\xa0龄："+age);
+                    $("#sex").text("性\xa0\xa0\xa0\xa0别："+data.data[0].sex);
+                    $("#count").text("发表数："+data.count);
+                    return true;
+                } else {
+                    layer.msg("获取用户信息失败！");
+                    return false;
+
+                }
+
+            }
+        });
     });
 
 

@@ -7,15 +7,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
-
 import javax.servlet.http.HttpSession;
 import com.personal.world.data.Responseinfo;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.personal.world.Dao.UserDao;
 
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -77,6 +76,7 @@ public class Login extends Responseinfo{
             UserData.put("password","");
             UserData.put("age",data.getString("year"));
             UserData.put("sex",data.getString("gender"));
+            UserData.put("Head",data.getString("figureurl_qq_2"));
             UserData.put("source","qq");
             boolean res = userService.adduser(UserData);
             if(res){
@@ -93,4 +93,21 @@ public class Login extends Responseinfo{
 
     }
 
+    @RequestMapping("/UserInfo")
+    public Resultinfo UserInfo (HttpSession session){
+
+        Resultinfo result = new Resultinfo();
+
+        String username = (String) session.getAttribute("username");
+        List ResultUser = userService.QueryUserData2(username);
+        Integer count = userService.BlogCount(username);
+
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(ResultUser);
+        result.setCount(count);
+
+        return result;
+
+    }
 }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -62,5 +64,35 @@ public class Blog extends Responseinfo {
 
 
     }
+
+
+    @RequestMapping("/blog/timeline")
+    public Resultinfo GetBlogLine(HttpSession session) {
+
+        Resultinfo result = new Resultinfo();
+        String username = (String) session.getAttribute("username");
+        List<Map<String, Object>> timeList = userService.QueryTimeLine(username);
+        List<Object> List = new ArrayList<>();
+        for (Map<String, Object> stringObjectMap : timeList) {
+            String line = (String) stringObjectMap.get("timeline");
+            List<Map<String, Object>> NameList = userService.QueryTimeName(line);
+            List<String> lineList = new ArrayList<>();
+            for (Map<String, Object> stringObjectMap2 : NameList) {
+                lineList.add((String) stringObjectMap2.get("name"));
+            }
+            Map<String ,Object> temp = new HashMap<>();
+            temp.put("timeline",line);
+            temp.put("name",lineList);
+            List.add(temp);
+        }
+
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(List);
+        return result;
+
+
+    }
+
 
 }

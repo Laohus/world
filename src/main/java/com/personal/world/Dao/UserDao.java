@@ -64,18 +64,18 @@ public class UserDao extends User {
     }
 
     /*查询用户数据2 */
-    public List<Map<String, Object>> QueryUserData2(){
+    public List<Map<String, Object>> QueryUserData2(String username){
 
-        String Key = "SELECT * FROM `user`;";
-        return jdbcTemplate.queryForList(Key);
+        String Key = "SELECT `name`,age,sex,Head FROM `user` WHERE `name`=?;";
+        return jdbcTemplate.queryForList(Key,username);
 
     }
 
-    /*查询用户数据总数 */
-    public Integer UserCount(){
+    /*查询博客数据总数 */
+    public Integer BlogCount(String username){
 
-        String Key = "SELECT count(*) from `user`";
-        return jdbcTemplate.queryForObject(Key,Integer.class);
+        String Key = "SELECT count(*) from `blog` WHERE `name`=?;";
+        return jdbcTemplate.queryForObject(Key,Integer.class,username);
 
     }
 
@@ -88,9 +88,9 @@ public class UserDao extends User {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`) VALUES(?,?,?,?,?,?);";
+        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`) VALUES(?,?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,UserData.get("name"),UserData.get("password"),formatter.format(date),
-                UserData.get("age"),UserData.get("sex"),UserData.get("source"))>0;
+                UserData.get("age"),UserData.get("sex"),UserData.get("source"),UserData.get("Head"))>0;
 
     }
 
