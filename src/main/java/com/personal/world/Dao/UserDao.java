@@ -39,6 +39,13 @@ public class UserDao extends User {
         return jdbcTemplate.queryForObject(Key,String.class,username);
     }
 
+    /*openid查询*/
+    public String QueryOpenid(String openid){
+
+        String Key ="SELECT COUNT(*) FROM `user` WHERE opeid=? ;";
+        return jdbcTemplate.queryForObject(Key,String.class,openid);
+    }
+
     /*用户名和密码查询 */
     public String QueryUserPass(String username,String password){
 
@@ -63,16 +70,32 @@ public class UserDao extends User {
 
     }
 
-    /*查询用户数据2 */
-    public List<Map<String, Object>> QueryUserData2(String username){
+    /*查询qq用户数据 */
+    public List<Map<String, Object>> QueryUserData2(String openid){
+
+        String Key = "SELECT `name`,age,sex,Head FROM `user` WHERE `openid`=?;";
+        return jdbcTemplate.queryForList(Key,openid);
+
+    }
+
+    /*查询系统用户数据 */
+    public List<Map<String, Object>> QuerySystemData(String username){
 
         String Key = "SELECT `name`,age,sex,Head FROM `user` WHERE `name`=?;";
         return jdbcTemplate.queryForList(Key,username);
 
     }
 
-    /*查询博客数据总数 */
-    public Integer BlogCount(String username){
+    /*查询qq博客数据总数 */
+    public Integer BlogCount(String openid){
+
+        String Key = "SELECT count(*) from `blog` WHERE `openid`=?;";
+        return jdbcTemplate.queryForObject(Key,Integer.class,openid);
+
+    }
+
+    /*查询系统博客数据总数 */
+    public Integer BlogSystemCount(String username){
 
         String Key = "SELECT count(*) from `blog` WHERE `name`=?;";
         return jdbcTemplate.queryForObject(Key,Integer.class,username);
@@ -88,9 +111,18 @@ public class UserDao extends User {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`) VALUES(?,?,?,?,?,?,?);";
+        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`,`openid`) VALUES(?,?,?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,UserData.get("name"),UserData.get("password"),formatter.format(date),
-                UserData.get("age"),UserData.get("sex"),UserData.get("source"),UserData.get("Head"))>0;
+                UserData.get("age"),UserData.get("sex"),UserData.get("source"),UserData.get("Head"),UserData.get("openid"))>0;
+
+    }
+
+    /*修改QQ用户数据 */
+    public boolean updateUser(Map<String, String> UserData){
+
+        String Key = "UPDATE `user` SET `name`=? ,age=? ,sex=? ,Head=? WHERE openid=?;";
+        return jdbcTemplate.update(Key,UserData.get("name"), UserData.get("age"),UserData.get("sex"),
+                UserData.get("Head"),UserData.get("openid"))>0;
 
     }
 

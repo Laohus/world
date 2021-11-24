@@ -36,6 +36,11 @@ public class Login extends Responseinfo{
 
         String UserName = request.getParameter("username");
         String PassWord = request.getParameter("password");
+        if(UserName.equals("") || PassWord.equals("")){
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_NO_FOUND());
+            return result;
+        }
         String ResultUser = userService.QueryUser(UserName);
 
         if(ResultUser.equals("1")){
@@ -43,6 +48,7 @@ public class Login extends Responseinfo{
 
             if(ResultModPassword.equals("1")){
                 session.setAttribute("username",UserName);
+                session.setAttribute("source","system");
                 result.setCode(getSUCCESS_CODE());
                 result.setMsg(getACCOUNT_SUCCESS());
             }else {
@@ -63,24 +69,33 @@ public class Login extends Responseinfo{
 
         Resultinfo result = new Resultinfo();
 
-        String nickname = data.getString("nickname");
-        String ResultUser = userService.QueryUser(nickname);
-        if(ResultUser.equals("1")){
-            session.setAttribute("username",nickname);
-            result.setCode(getSUCCESS_CODE());
-            result.setMsg(getACCOUNT_SUCCESS());
-        }else {
+        Map<String,String> UserData = new HashMap<>();
+        UserData.put("name",data.getString("nickname"));
+        UserData.put("password","");
+        UserData.put("age",data.getString("year"));
+        UserData.put("sex",data.getString("gender"));
+        UserData.put("Head",data.getString("figureurl_qq_2"));
+        UserData.put("source","qq");
+        UserData.put("openid",data.getString("openid"));
 
-            Map<String,String> UserData = new HashMap<>();
-            UserData.put("name",nickname);
-            UserData.put("password","");
-            UserData.put("age",data.getString("year"));
-            UserData.put("sex",data.getString("gender"));
-            UserData.put("Head",data.getString("figureurl_qq_2"));
-            UserData.put("source","qq");
+        String openid = data.getString("openid");
+        String ResultOpenid = userService.QueryOpenid(openid);
+        if(ResultOpenid.equals("1")){
+            boolean ResultUser = userService.updateUser(UserData);
+            if(ResultUser){
+                session.setAttribute("openid",data.getString("openid"));
+                session.setAttribute("source","qq");
+                result.setCode(getSUCCESS_CODE());
+                result.setMsg(getACCOUNT_SUCCESS());
+            }else {
+                result.setCode(getFAIL_CODE());
+                result.setErrormsg(getACCOUNT_ERROR());
+            }
+        }else {
             boolean res = userService.adduser(UserData);
             if(res){
-                session.setAttribute("username",nickname);
+                session.setAttribute("openid",data.getString("openid"));
+                session.setAttribute("source","qq");
                 result.setCode(getSUCCESS_CODE());
                 result.setMsg(getACCOUNT_SUCCESS());
             }else {
@@ -97,16 +112,24 @@ public class Login extends Responseinfo{
     public Resultinfo UserInfo (HttpSession session){
 
         Resultinfo result = new Resultinfo();
-
-        String username = (String) session.getAttribute("username");
-        List ResultUser = userService.QueryUserData2(username);
-        Integer count = userService.BlogCount(username);
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            String openid = (String) session.getAttribute("openid");
+            List ResultUser = userService.QueryUserData2(openid);
+            Integer count = userService.BlogCount(openid);
+            result.setData(ResultUser);
+            result.setCount(count);
+        };
+        if(source.equals("system")){
+            String username = (String) session.getAttribute("username");
+            List ResultUser = userService.QuerySystemData(username);
+            Integer count = userService.BlogSystemCount(username);
+            result.setData(ResultUser);
+            result.setCount(count);
+        };
 
         result.setCode(getSUCCESS_CODE());
         result.setMsg(getACCOUNT_SUCCESS());
-        result.setData(ResultUser);
-        result.setCount(count);
-
         return result;
 
     }

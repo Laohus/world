@@ -98,21 +98,22 @@
         return window.open(url, 'oauth2Login_10663' ,'');
 
     });
+
+    let access_token="";
+    let open_id="";
     if(QC.Login.check()){
-        let access_token;
-        let open_id;
         QC.Login.getMe(function(openId, accessToken){
             access_token = accessToken;
             open_id = openId;
-        });
         QC.api("get_user_info", {})
         .success(function (s){
-                $.ajax({
+            const UserMsg  = $.extend({}, {"openid":open_id}, s.data);
+            $.ajax({
                     url:"/login/qq",
                     type:"POST",
                     datatype:"JSON",
                     contentType: "application/json;charset=UTF-8",
-                    data: JSON.stringify(s.data),
+                    data: JSON.stringify(UserMsg),
                     success:function (data) {
                         if(data.code==="0"){
                             $(location).prop("href","/Welcome");
@@ -135,6 +136,7 @@
                 console.log("获取用户信息完成！");
                 return true
             })
+        });
     }
 
 
