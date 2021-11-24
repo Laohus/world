@@ -81,8 +81,7 @@ public class Login extends Responseinfo{
         String openid = data.getString("openid");
         String ResultOpenid = userService.QueryOpenid(openid);
         if(ResultOpenid.equals("1")){
-            boolean ResultUser = userService.updateUser(UserData);
-            if(ResultUser){
+            if(userService.updateUser(UserData)){
                 session.setAttribute("openid",data.getString("openid"));
                 session.setAttribute("source","qq");
                 result.setCode(getSUCCESS_CODE());
@@ -92,8 +91,7 @@ public class Login extends Responseinfo{
                 result.setErrormsg(getACCOUNT_ERROR());
             }
         }else {
-            boolean res = userService.adduser(UserData);
-            if(res){
+            if(userService.adduser(UserData)){
                 session.setAttribute("openid",data.getString("openid"));
                 session.setAttribute("source","qq");
                 result.setCode(getSUCCESS_CODE());

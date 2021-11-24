@@ -42,7 +42,7 @@ public class UserDao extends User {
     /*openid查询*/
     public String QueryOpenid(String openid){
 
-        String Key ="SELECT COUNT(*) FROM `user` WHERE opeid=? ;";
+        String Key ="SELECT COUNT(*) FROM `user` WHERE openid=? ;";
         return jdbcTemplate.queryForObject(Key,String.class,openid);
     }
 
