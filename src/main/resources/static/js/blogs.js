@@ -11,6 +11,21 @@ $(document).ready(function() {
         return true;
     });
 
+    $("#logout").click(function() {
+
+        $.ajax({
+            url:"/LoginOut",
+            type:"POST",
+            datatype:"JSON",
+            success:function (data) {
+                $(location).prop("href","/login")
+                return true;
+
+            }
+        })
+
+    });
+
     $.ajax({
         url:"/blog/timeline",
         type:"POST",

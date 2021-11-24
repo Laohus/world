@@ -34,7 +34,18 @@ public class Blog extends Responseinfo {
     public Resultinfo AddNewBlog(@RequestBody JSONObject data , HttpSession session) {
 
         Resultinfo result = new Resultinfo();
-        String username = (String) session.getAttribute("username");
+        String openid = "";
+        String username = "";
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            openid = (String) session.getAttribute("openid");
+            username = userService.QueryName(openid);
+        };
+        if(source.equals("system")){
+            username = (String) session.getAttribute("username");
+        };
+
+//        username = (String) session.getAttribute("username");
 
         String BlogTitle = data.getString("BlogTitle");
         String ClassLfy = data.getString("ClassLfy");
@@ -49,6 +60,7 @@ public class Blog extends Responseinfo {
             Blogdata.put("ClassLfy",ClassLfy);
             Blogdata.put("username",username);
             Blogdata.put("content",content);
+            Blogdata.put("openid",openid);
             boolean resultBlog = userService.AddBlog(Blogdata);
             if(resultBlog){
                 result.setCode(getSUCCESS_CODE());
@@ -70,12 +82,36 @@ public class Blog extends Responseinfo {
     public Resultinfo GetBlogLine(HttpSession session) {
 
         Resultinfo result = new Resultinfo();
-        String username = (String) session.getAttribute("username");
-        List<Map<String, Object>> timeList = userService.QueryTimeLine(username);
+        String openid = "";
+        String username = "";
+        List<Map<String, Object>> timeList = null;
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            openid = (String) session.getAttribute("openid");
+            timeList = userService.QueryTimeLine2(openid);
+        };
+        if(source.equals("system")){
+            username = (String) session.getAttribute("username");
+            timeList = userService.QueryTimeLine(username);
+        };
+
+
+//        String username = (String) session.getAttribute("username");
+//        List<Map<String, Object>> timeList = userService.QueryTimeLine(username);
         List<Object> List = new ArrayList<>();
+        assert timeList != null;
         for (Map<String, Object> stringObjectMap : timeList) {
             String line = (String) stringObjectMap.get("timeline");
-            List<Map<String, Object>> NameList = userService.QueryTimeName(line);
+            List<Map<String, Object>> NameList = null;
+//            List<Map<String, Object>> NameList = userService.QueryTimeName(line);
+            if(source.equals("qq")){
+                openid = (String) session.getAttribute("openid");
+                NameList = userService.QueryTimeName(line,openid);
+            };
+            if(source.equals("system")){
+                username = (String) session.getAttribute("username");
+                NameList = userService.QueryTimeName2(line,username);
+            };
             List<String> lineList = new ArrayList<>();
             for (Map<String, Object> stringObjectMap2 : NameList) {
                 lineList.add((String) stringObjectMap2.get("name"));
