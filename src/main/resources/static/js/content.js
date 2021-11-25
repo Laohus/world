@@ -66,9 +66,6 @@ $(document).ready(function() {
                             }
                         })
                     }
-                    // console.log(DataHtml);
-                    //
-                    // const markdown = DataHtml;
                     Vditor.preview(document.getElementById('preview'),
                         markdown, {
                             speech: {
