@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,6 +127,32 @@ public class Blog extends Responseinfo {
         result.setCode(getSUCCESS_CODE());
         result.setMsg(getACCOUNT_SUCCESS());
         result.setData(List);
+        return result;
+
+
+    }
+
+    @RequestMapping("/blog/content")
+    public Resultinfo GetBlogContent(HttpServletRequest request,HttpSession session) {
+
+        Resultinfo result = new Resultinfo();
+        String openid = "";
+        String username = "";
+        String BlogName = request.getParameter("BlogName");
+        List<Map<String, Object>> DataList = null;
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            openid = (String) session.getAttribute("openid");
+            DataList = userService.QueryName(BlogName,openid);
+        };
+        if(source.equals("system")){
+            username = (String) session.getAttribute("username");
+            DataList = userService.QueryName2(BlogName,username);
+        };
+
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(DataList);
         return result;
 
 

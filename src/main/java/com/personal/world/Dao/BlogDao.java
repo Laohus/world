@@ -65,6 +65,22 @@ public class BlogDao {
         return jdbcTemplate.queryForList(Key,line,username);
     }
 
+    /*根据博客名查询数据qq*/
+    public List<Map<String, Object>> QueryName(String name , String openid){
+
+        String Key ="SELECT `user`,`category`,`content`,`createtime` FROM blog WHERE `name` = ? and openid = ?;";
+
+        return jdbcTemplate.queryForList(Key,name,openid);
+    }
+
+    /*根据博客名查询数据*/
+    public List<Map<String, Object>> QueryName2(String name,String username){
+
+        String Key ="SELECT `user`,`category`,`content`,`createtime` FROM blog WHERE `name` = ?  and `user`=? AND openid=\"\" ;";
+
+        return jdbcTemplate.queryForList(Key,name,username);
+    }
+
     /*根据openid查询用户名*/
     public String QueryName(String openid){
 

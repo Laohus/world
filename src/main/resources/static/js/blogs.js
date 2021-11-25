@@ -11,6 +11,7 @@ $(document).ready(function() {
         return true;
     });
 
+
     $("#logout").click(function() {
 
         $.ajax({
@@ -39,6 +40,7 @@ $(document).ready(function() {
                         AddLine(line[i].timeline,line[i].name);
                     }
                 }
+
                 return true;
             }else {
                 return false;
@@ -47,6 +49,12 @@ $(document).ready(function() {
 
         }
     })
+
+    $("#AddLine").on('click','.article_details',function(e) {
+        const BlogName = $(e.target);
+        $(location).prop("href", "/BlogDetail#"+BlogName.text());
+        return true;
+    });
 
 
 
@@ -70,7 +78,7 @@ function AddName(name){
     let lineName = ""
     let m = name.length;
     for(let i =0;i<m;i++){
-        let lineNames = "<p>"+name[i]+"</p>";
+        let lineNames = "<p class='article_details'>"+name[i]+"</p>";
 
         lineName = lineNames + lineName;
 

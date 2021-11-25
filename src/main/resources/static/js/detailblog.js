@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    $("#blogback").click(function() {
+
+        $(location).prop("href","/Blog")
+        return true;
+    });
+
     $("#AddBlog").click(function() {
 
         const classlfy = $('input[name="like"]:checked').val();
@@ -23,7 +29,7 @@ $(document).ready(function() {
                         const index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
 
-                    },3000);
+                    },2000);
                     return true;
                 }else {
                     layer.msg(data.errormsg);

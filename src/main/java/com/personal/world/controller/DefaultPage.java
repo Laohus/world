@@ -24,6 +24,9 @@ public class DefaultPage extends Responseinfo {
     @RequestMapping("/Newblog")
     public String newblog(){ return "Newblog"; }
 
+    @RequestMapping("/BlogDetail")
+    public String BlogDetail(){ return "BlogDetail"; }
+
     @RequestMapping("/LoginOut")
     public String LoginOut(HttpSession session, SessionStatus sessionStatus){
         session.invalidate();
