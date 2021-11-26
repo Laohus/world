@@ -58,12 +58,63 @@
     margin-top: 1%;
 
 }
-/*.comments{*/
-/*    position: absolute;*/
-/*    width: 80%;*/
-/*    margin-left: 10%;*/
-/*    background-color: white;*/
-/*    height: 20%;*/
-/*    margin-top: 100%;*/
-/*}*/
+.comments{
+    bottom: 0;
+    height: 600px;
+}
+
+.Comment_box{
+    margin-left: 2%;
+    margin-top: 10%;
+    height: 64px;
+    width: 75%;
+    background: rgba(248,249,251,0.8);
+    border: 1px solid #dadde0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.Comment_reply{
+    width: 95%;
+    height: 60%;
+    margin-top: 3%;
+    background: rgba(248,249,251,0.8);
+    margin-left: 2%;
+}
+
+.Comment_photo{
+    height: 70px;
+    width: 70px;
+    margin-left: 2%;
+}
+.Comment_add{
+    margin-top: 10%;
+    height: 64px;
+    width: 70px;
+    vertical-align: top;
+    background-color: #ccccd7;
+    color: white;
+    border-radius: 6px;
+    border:none;
+}
+
+.Comment_emoji{
+    height: 64px;
+    width: 64px;
+    background-color: white;
+    border-radius: 6px;
+    border:none;
+    opacity:0;
+}
+
+.Comment_replyList{
+    height: 80%;
+    width: 80%;
+    margin-left: 10%;
+}
+.Comment_replyPage{
+    height: 20%;
+    width: 80%;
+    margin-left: 10%;
+}
 

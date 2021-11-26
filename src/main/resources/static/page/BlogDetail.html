@@ -115,13 +115,16 @@
     <p class="time">创建时间：</p>
     </div>
 </div>
-<div class="content" id="content"></div>
+<!--<div class="content" id="content"></div>-->
 
 
-<div id="preview"></div>
+<div id="preview">
+
+</div>
+
 <div id="outline"></div>
+<!--<div class="comments"></div>-->
 
-<div class="comments"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
@@ -148,20 +151,37 @@
         });
     });
 
-    // const vditor = new Vditor('content', {
-    //     "theme": "classic",
-    //     "icon": "material",
-    //     "cache": {
-    //         "enable": false
-    //     },
-    //     "preview": {
-    //         "theme": {
-    //             "current": "dark"
-    //         }
-    //     },
-    //
-    // });
 
+
+
+
+    // layui.use(['laypage', 'layer'], function() {
+    //     const laypage = layui.laypage
+    //         , layer = layui.layer;
+    //
+    //     //总页数低于页码总数
+    //     laypage.render({
+    //         elem: 'demo0'
+    //         , count: 5 //数据总数
+    //     })
+    //     //调用分页
+    //     laypage.render({
+    //         elem: 'demo0'
+    //         ,count: 6
+    //         ,jump: function(obj){
+    //             //模拟渲染
+    //             document.getElementById('biuuu_city_list').innerHTML = function(){
+    //                 const arr = []
+    //                     , thisData = data.concat().splice(obj.curr * obj.limit - obj.limit, obj.limit);
+    //                 layui.each(thisData, function(index, item){
+    //                     arr.push('<li>'+ item +'</li>');
+    //                 });
+    //                 return arr.join('');
+    //             }();
+    //         }
+    //     });
+    //
+    // })
 
 
 

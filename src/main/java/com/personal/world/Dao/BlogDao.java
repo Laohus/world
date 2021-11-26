@@ -82,11 +82,44 @@ public class BlogDao {
     }
 
     /*根据openid查询用户名*/
-    public String QueryName(String openid){
+    public String QueryUser(String openid){
 
         String Key ="SELECT `name` FROM `user` WHERE openid=?;";
 
         return jdbcTemplate.queryForObject(Key,String.class,openid);
+    }
+
+    /*根据博客名查询数据idqq*/
+    public List<Map<String, Object>> Queryid(String name , String openid){
+
+        String Key ="SELECT `user`,`id` FROM blog WHERE `name` = ? and openid = ?;";
+
+        return jdbcTemplate.queryForList(Key,name,openid);
+    }
+
+    /*根据博客名查询数据id*/
+    public List<Map<String, Object>> Queryid2(String name,String username){
+
+        String Key ="SELECT `user`,`id` FROM blog WHERE `name` = ?  and `user`=? AND openid=\"\" ;";
+
+        return jdbcTemplate.queryForList(Key,name,username);
+    }
+
+    /*添加博客评论 */
+    public boolean AddBlogComment(Map<String,Object> temp){
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String Key = "INSERT into`comment` (`blogid`,`comment`,`time`,`openid`,`user`) VALUES(?,?,?,?,?);";
+        return jdbcTemplate.update(Key,temp.get("blogid"),temp.get("comment"),formatter.format(date),
+                temp.get("openid"),temp.get("username"))>0;
+    }
+
+    /*根据id查询评论 */
+    public List<Map<String, Object>> QueryCommentData(int blogid){
+
+        String Key = "SELECT `user`,`comment` FROM `comment` where `blogid` = ?;";
+        return jdbcTemplate.queryForList(Key,blogid);
+
     }
 
 

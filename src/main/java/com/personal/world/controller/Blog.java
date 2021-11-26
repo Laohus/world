@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @ResponseBody
@@ -41,7 +38,7 @@ public class Blog extends Responseinfo {
         String source = (String) session.getAttribute("source");
         if(source.equals("qq")){
             openid = (String) session.getAttribute("openid");
-            username = userService.QueryName(openid);
+            username = userService.QueryUser(openid);
         };
         if(source.equals("system")){
             username = (String) session.getAttribute("username");
@@ -153,6 +150,90 @@ public class Blog extends Responseinfo {
         result.setCode(getSUCCESS_CODE());
         result.setMsg(getACCOUNT_SUCCESS());
         result.setData(DataList);
+        return result;
+
+
+    }
+
+    @RequestMapping("/blog/AddComment")
+    public Resultinfo AddComment(HttpServletRequest request,HttpSession session) {
+
+        Resultinfo result = new Resultinfo();
+        String openid = "";
+        String username = "";
+        String comment = request.getParameter("comment");
+        if(comment.equals("")){
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_ERROR());
+            return result;
+        }
+        String BlogName = request.getParameter("BlogName");
+        List<Map<String, Object>> DataList = null;
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            openid = (String) session.getAttribute("openid");
+            username = userService.QueryUser(openid);
+            DataList = userService.Queryid(BlogName,openid);
+        };
+        if(source.equals("system")){
+            username = (String) session.getAttribute("username");
+            DataList = userService.Queryid2(BlogName,username);
+        };
+        Map<String,Object> temp = new HashMap<>();
+        assert DataList != null;
+        temp.put("blogid",(Integer) DataList.get(0).get("id"));
+        temp.put("comment",comment);
+        temp.put("openid",openid);
+        temp.put("username",username);
+        boolean res = userService.AddBlogComment(temp);
+        if(!res){
+
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_ERROR());
+        }
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+
+//
+//        result.setData(DataList);
+        return result;
+
+
+    }
+
+    @RequestMapping("/blog/QueryComment")
+    public Resultinfo QueryComment(HttpServletRequest request,HttpSession session) {
+
+        Resultinfo result = new Resultinfo();
+        String openid = "";
+        String username = "";
+
+        String BlogName = request.getParameter("BlogName");
+
+        List<Map<String, Object>> DataList = null;
+        String source = (String) session.getAttribute("source");
+        if(source.equals("qq")){
+            openid = (String) session.getAttribute("openid");
+            DataList = userService.Queryid(BlogName,openid);
+//            username = userService.QueryUser(openid);
+        };
+        if(source.equals("system")){
+            username = (String) session.getAttribute("username");
+            DataList = userService.Queryid2(BlogName,username);
+        };
+        List<Map<String, Object>> CommentData = null;
+        assert DataList != null;
+        if(DataList.size()==0){
+            result.setCode(getSUCCESS_CODE());
+            result.setMsg(getACCOUNT_SUCCESS());
+            return result;
+        }
+        assert DataList != null;
+        CommentData = userService.QueryCommentData((Integer) DataList.get(0).get("id"));
+
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(CommentData);
         return result;
 
 
