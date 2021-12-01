@@ -1,8 +1,8 @@
-package com.personal.world.data;
+package com.personal.world.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Resultinfo {
+public class ResultInfo {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 

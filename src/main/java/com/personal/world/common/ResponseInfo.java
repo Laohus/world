@@ -1,6 +1,6 @@
-package com.personal.world.data;
+package com.personal.world.common;
 
-public class Responseinfo {
+public class ResponseInfo {
 
     /*成功返回状态*/
     private String SUCCESS_CODE = "0";

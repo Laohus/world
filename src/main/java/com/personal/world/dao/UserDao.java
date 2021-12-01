@@ -1,9 +1,7 @@
-package com.personal.world.Dao;
+package com.personal.world.dao;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.personal.world.data.User;
+import com.personal.world.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -102,7 +100,7 @@ public class UserDao extends User {
 
     }
 
-    /*添加用户数据 */
+    /*添加用户数据qq */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date date;
 
@@ -114,6 +112,18 @@ public class UserDao extends User {
         String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`,`openid`) VALUES(?,?,?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,UserData.get("name"),UserData.get("password"),formatter.format(date),
                 UserData.get("age"),UserData.get("sex"),UserData.get("source"),UserData.get("Head"),UserData.get("openid"))>0;
+
+    }
+
+    /*添加用户数据注册 */
+    public boolean adduserSystem(Map<String, String> UserData){
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`,`openid`) VALUES(?,?,?,?,?,?,?,?);";
+        return jdbcTemplate.update(Key,UserData.get("name"),UserData.get("password"),formatter.format(date),
+                UserData.get("age"),UserData.get("sex"),"system","../image/login/avatars.jpg",UserData.get("openid"))>0;
 
     }
 

@@ -1,4 +1,4 @@
-package com.personal.world.data;
+package com.personal.world.common;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -19,10 +19,10 @@ public class User {
     private String name;
 
     @Column
-    private String password;
+    private String passWord;
 
     @Column
-    private String cratetime;
+    private String crateTime;
 
     @Column
     private String email;
@@ -43,14 +43,14 @@ public class User {
     public void setName(String name) { this.name = name; }
 
     public String getPassword() {
-        return password;
+        return passWord;
     }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String passWord) { this.passWord = passWord; }
 
     public String getCratetime() {
-        return cratetime;
+        return crateTime;
     }
-    public void setCratetime(String cratetime) { this.cratetime = cratetime; }
+    public void setCratetime(String crateTime) { this.crateTime = crateTime; }
 
     public String getEmail() {
         return email;

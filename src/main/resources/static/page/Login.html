@@ -11,11 +11,35 @@
 
     <link rel="shortcut icon" href="../image/login/icon.png" type="text/css" />
 
-<!--    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>-->
 
     <link href="../third/cork/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="../third/cork/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="../third/cork/assets/css/authentication/form-2.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .registers{
+            margin-left: 85%;
+            font-size: 18px;
+            color: black;
+            margin-top: 1%;
+            font-weight: bold;
+        }
+        .registers:hover{
+            color: #1b55e2;
+            font-weight: bold;
+        }
+        .return{
+            margin-left: 85%;
+            font-size: 18px;
+            color: black;
+            margin-top: 1%;
+            font-weight: bold;
+        }
+        .return:hover{
+            color: #1b55e2;
+            font-weight: bold;
+        }
+    </style>
 
 
 </head>
@@ -27,11 +51,9 @@
     <div class="form-form">
         <div class="form-form-wrap">
             <div class="form-container">
-                <div class="form-content" style="opacity: 0.8">
-
+                <div class="form-content" >
                     <h1 class="">Personal world</h1>
                     <p class="">I don't miss a single question.</p>
-
                     <form class="text-left" method="POST" id="FormLogin">
                         <div class="form">
 
@@ -55,6 +77,10 @@
                                 </div>
                             </div>
 
+                            <div class="registers">
+                                <span>注 册</span>
+                            </div>
+
                             <div class="division">
                                 <span>OR</span>
                             </div>
@@ -72,6 +98,55 @@
 
                             <p class="signup-link error" id="error" style="color: red"></p>
                             <br>
+                            <div>
+                                <a href="https://beian.miit.gov.cn" style="text-align: center;margin-left: 30%;color: black">浙ICP备2021034588号-1</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div style="display: none" id="Registers" class="form-content">
+                    <h1 class="">注 册</h1>
+                    <p class="">I don't miss a single question.</p>
+                    <form class="text-left" method="POST" id="FromRegisters">
+                        <div class="form">
+                            <div id="username-field2" class="field-wrapper input">
+                                <label for="username">USERNAME</label>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <label for="username2"></label><input id="username2" name="username" type="text" class="form-control" autocomplete="off" placeholder="Username">
+                            </div>
+                            <div id="age-field2" class="field-wrapper input">
+                                <label for="age">AGE</label>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><path d="M16 2H8C4.691 2 2 4.691 2 8v12a1 1 0 0 0 1 1h13c3.309 0 6-2.691 6-6V8c0-3.309-2.691-6-6-6zm4 13c0 2.206-1.794 4-4 4H4V8c0-2.206 1.794-4 4-4h8c2.206 0 4 1.794 4 4v7z"></path></svg>
+                                <input id="age" name="age" type="number" class="form-control" placeholder="Age">
+                            </div>
+                            <div id="sex-field2" class="field-wrapper input">
+                                <label for="sex">SEX</label>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 2c3.213 0 5.982 1.908 7.254 4.648a7.8 7.8 0 0 1-.895-.498c-.409-.258-.873-.551-1.46-.772-.669-.255-1.4-.378-2.234-.378s-1.565.123-2.234.377c-.587.223-1.051.516-1.472.781-.378.237-.703.443-1.103.594C9.41 8.921 8.926 9 8.33 9c-.595 0-1.079-.079-1.524-.248-.4-.151-.728-.358-1.106-.598-.161-.101-.34-.208-.52-.313C6.587 5.542 9.113 4 12 4zm0 16c-4.411 0-8-3.589-8-8 0-.81.123-1.59.348-2.327.094.058.185.11.283.173.411.26.876.554 1.466.776.669.255 1.399.378 2.233.378.833 0 1.564-.123 2.235-.377.587-.223 1.051-.516 1.472-.781.378-.237.703-.443 1.103-.595.445-.168.929-.247 1.525-.247s1.08.079 1.525.248c.399.15.725.356 1.114.602.409.258.873.551 1.46.773.363.138.748.229 1.153.291.049.357.083.717.083 1.086 0 4.411-3.589 8-8 8z"></path><circle cx="8.5" cy="13.5" r="1.5"></circle><circle cx="15.5" cy="13.5" r="1.5"></circle></svg>
+                                <select name="sex" id="sex" class="form-control  basic" required>
+                                    <option value="男" style="text-align: center">男</option>
+                                    <option value="女" style="text-align: center">女</option>
+                                </select>
+                            </div>
+                            <div id="password-field2" class="field-wrapper input mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <label for="password">PASSWORD</label>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <input id="password2" name="password" type="password" class="form-control" placeholder="Password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </div>
+                            <div class="d-sm-flex justify-content-between">
+                                <div class="field-wrapper">
+                                    <button type="button" id="ButtonRegisters" class="btn btn-primary">完成注册</button>
+                                </div>
+                            </div>
+                            <div class="return">
+                                <span>返 回</span>
+                            </div>
+                            <p class="signup-link error" id="error2" style="color: red"></p>
+
                             <div>
                                 <a href="https://beian.miit.gov.cn" style="text-align: center;margin-left: 30%;color: black">浙ICP备2021034588号-1</a>
                             </div>

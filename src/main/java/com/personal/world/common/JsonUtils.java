@@ -1,4 +1,4 @@
-package com.personal.world.data;
+package com.personal.world.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;

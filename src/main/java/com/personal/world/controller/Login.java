@@ -1,17 +1,19 @@
 package com.personal.world.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.personal.world.data.Resultinfo;
+import com.personal.world.common.ResultInfo;
+import com.personal.world.service.Md5Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
-import com.personal.world.data.Responseinfo;
+
+import com.personal.world.common.ResponseInfo;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.personal.world.Dao.UserDao;
+import com.personal.world.dao.UserDao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @ResponseBody
-public class Login extends Responseinfo{
+public class Login extends ResponseInfo {
 
     private UserDao userService;
 
@@ -29,25 +31,69 @@ public class Login extends Responseinfo{
         this.userService = userService;
     }
 
-    @RequestMapping("/login/account")
-    public Resultinfo LoginAccount (HttpServletRequest request , HttpSession session){
+    @RequestMapping("/login/Registers")
+    public ResultInfo loginRegisters (HttpServletRequest request){
 
-        Resultinfo result = new Resultinfo();
+        ResultInfo result = new ResultInfo();
 
-        String UserName = request.getParameter("username");
-        String PassWord = request.getParameter("password");
-        if(UserName.equals("") || PassWord.equals("")){
+        String userName = request.getParameter("username");
+        String passWord = request.getParameter("password");
+        String age = request.getParameter("age");
+        String sex = request.getParameter("sex");
+        if(userName.equals("") || passWord.equals("") || age.equals("") || sex.equals("")){
             result.setCode(getFAIL_CODE());
             result.setErrormsg(getACCOUNT_NO_FOUND());
             return result;
         }
-        String ResultUser = userService.QueryUser(UserName);
+        String resultUser = userService.QueryUser(userName);
 
-        if(ResultUser.equals("1")){
-            String ResultModPassword = userService.QueryUserPass(UserName,PassWord);
+        String openId = Md5Message.GetMad5(userName+passWord);
 
-            if(ResultModPassword.equals("1")){
-                session.setAttribute("username",UserName);
+        Map<String,String> temp = new HashMap<>();
+        temp.put("name",userName);
+        temp.put("password",passWord);
+        temp.put("age",age);
+        temp.put("sex",sex);
+        temp.put("openid",openId);
+
+        if(resultUser.equals("0")){
+            boolean ResultRegisters = userService.adduserSystem(temp);
+
+            if(ResultRegisters){
+                result.setCode(getSUCCESS_CODE());
+                result.setMsg(getACCOUNT_SUCCESS());
+            }else {
+                result.setCode(getFAIL_CODE());
+                result.setErrormsg(getACCOUNT_ERROR());
+            }
+        }else {
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_NO_FOUND());
+
+        }
+        return result;
+
+    }
+
+    @RequestMapping("/login/account")
+    public ResultInfo loginAccount (HttpServletRequest request , HttpSession session){
+
+        ResultInfo result = new ResultInfo();
+
+        String userName = request.getParameter("username");
+        String passWord = request.getParameter("password");
+        if(userName.equals("") || passWord.equals("")){
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_NO_FOUND());
+            return result;
+        }
+        String resultUser = userService.QueryUser(userName);
+
+        if(resultUser.equals("1")){
+            String resultModPassword = userService.QueryUserPass(userName,passWord);
+
+            if(resultModPassword.equals("1")){
+                session.setAttribute("username",userName);
                 session.setAttribute("source","system");
                 result.setCode(getSUCCESS_CODE());
                 result.setMsg(getACCOUNT_SUCCESS());
@@ -65,23 +111,23 @@ public class Login extends Responseinfo{
     }
 
     @RequestMapping("/login/qq")
-    public Resultinfo Loginqq (@RequestBody JSONObject data , HttpSession session){
+    public ResultInfo loginAccountQQ (@RequestBody JSONObject data , HttpSession session){
 
-        Resultinfo result = new Resultinfo();
+        ResultInfo result = new ResultInfo();
 
-        Map<String,String> UserData = new HashMap<>();
-        UserData.put("name",data.getString("nickname"));
-        UserData.put("password","");
-        UserData.put("age",data.getString("year"));
-        UserData.put("sex",data.getString("gender"));
-        UserData.put("Head",data.getString("figureurl_qq_2"));
-        UserData.put("source","qq");
-        UserData.put("openid",data.getString("openid"));
+        Map<String,String> userData = new HashMap<>();
+        userData.put("name",data.getString("nickname"));
+        userData.put("password","");
+        userData.put("age",data.getString("year"));
+        userData.put("sex",data.getString("gender"));
+        userData.put("Head",data.getString("figureurl_qq_2"));
+        userData.put("source","qq");
+        userData.put("openid",data.getString("openid"));
 
-        String openid = data.getString("openid");
-        String ResultOpenid = userService.QueryOpenid(openid);
-        if(ResultOpenid.equals("1")){
-            if(userService.updateUser(UserData)){
+        String openId = data.getString("openid");
+        String resultOpenId = userService.QueryOpenid(openId);
+        if(resultOpenId.equals("1")){
+            if(userService.updateUser(userData)){
                 session.setAttribute("openid",data.getString("openid"));
                 session.setAttribute("source","qq");
                 result.setCode(getSUCCESS_CODE());
@@ -91,7 +137,7 @@ public class Login extends Responseinfo{
                 result.setErrormsg(getACCOUNT_ERROR());
             }
         }else {
-            if(userService.adduser(UserData)){
+            if(userService.adduser(userData)){
                 session.setAttribute("openid",data.getString("openid"));
                 session.setAttribute("source","qq");
                 result.setCode(getSUCCESS_CODE());
@@ -107,24 +153,24 @@ public class Login extends Responseinfo{
     }
 
     @RequestMapping("/UserInfo")
-    public Resultinfo UserInfo (HttpSession session){
+    public ResultInfo userInfo (HttpSession session){
 
-        Resultinfo result = new Resultinfo();
+        ResultInfo result = new ResultInfo();
         String source = (String) session.getAttribute("source");
         if(source.equals("qq")){
             String openid = (String) session.getAttribute("openid");
-            List ResultUser = userService.QueryUserData2(openid);
+            List<Map<String, Object>> resultUser = userService.QueryUserData2(openid);
             Integer count = userService.BlogCount(openid);
-            result.setData(ResultUser);
+            result.setData(resultUser);
             result.setCount(count);
-        };
+        }
         if(source.equals("system")){
-            String username = (String) session.getAttribute("username");
-            List ResultUser = userService.QuerySystemData(username);
-            Integer count = userService.BlogSystemCount(username);
-            result.setData(ResultUser);
+            String userName = (String) session.getAttribute("username");
+            List<Map<String, Object>> resultUser = userService.QuerySystemData(userName);
+            Integer count = userService.BlogSystemCount(userName);
+            result.setData(resultUser);
             result.setCount(count);
-        };
+        }
 
         result.setCode(getSUCCESS_CODE());
         result.setMsg(getACCOUNT_SUCCESS());

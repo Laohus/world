@@ -135,7 +135,7 @@ $(document).ready(function() {
 
                                 })
                                 UpPadge();
-                                Querycomment();
+                                Querycomment(BlogName);
 
 
 
@@ -210,11 +210,11 @@ function Querycomment(BlogName){
         url:"/blog/QueryComment",
         type:"POST",
         datatype:"JSON",
-        data: "&BlogName="+BlogName,
+        data: "BlogName="+BlogName,
         success:function (data) {
             if(data.code==="0"){
                 $("#error").text("");
-                layer.msg("查询评论成功！");
+                // layer.msg("查询评论成功！");
                 return true;
             }else {
                 $("input[ type='text']").val("");
