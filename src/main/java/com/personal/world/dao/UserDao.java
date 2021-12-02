@@ -73,8 +73,8 @@ public class UserDao extends User {
 
         String Key = "SELECT `name`,age,sex,Head FROM `user` WHERE `openid`=?;";
         return jdbcTemplate.queryForList(Key,openid);
-
     }
+
 
     /*查询系统用户数据 */
     public List<Map<String, Object>> QuerySystemData(String username){
@@ -157,8 +157,14 @@ public class UserDao extends User {
 
         return jdbcTemplate.update(Key, User) != 0;
 
+    }
 
+    /*根据用户名查询openid*/
+    public String QueryOpenidId(String username , String source){
 
+        String Key ="SELECT `openid` FROM `user` WHERE `name`=? AND `source`=?;";
+
+        return jdbcTemplate.queryForObject(Key,String.class,username,source);
     }
 
 

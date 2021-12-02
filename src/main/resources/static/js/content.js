@@ -20,7 +20,7 @@ $(document).ready(function() {
                     $(".title").append(BlogName)
                     $(".time").append(time.replace("T"," "))
                     $(".category").append(data.data[0].category)
-                    $(".user").append(data.data[0].user)
+                    $(".user").append(data.data[0].name)
                     // $("#content").append(data.data[0].content)
                     const markdown = data.data[0].content;
 
@@ -191,6 +191,7 @@ function Addcomment(BlogName){
             if(data.code==="0"){
                 $("#error").text("");
                 layer.msg("添加评论成功！");
+                $(".Comment_box").val("");
                 return true;
             }else {
                 $("input[ type='text']").val("");

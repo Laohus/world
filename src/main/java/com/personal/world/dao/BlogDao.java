@@ -26,9 +26,9 @@ public class BlogDao {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat formatterLine= new SimpleDateFormat("yyyy年MM月dd日");
 
-        String Key = "INSERT into`blog` (`name`,`category`,`createtime`,`user`,`content`,`timeline`,`openid`) VALUES(?,?,?,?,?,?,?);";
+        String Key = "INSERT into`blog` (`name`,`category`,`createtime`,`content`,`timeline`,`openid`) VALUES(?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,BlogData.get("BlogTitle"),BlogData.get("ClassLfy"),
-                formatter.format(date),BlogData.get("username"),BlogData.get("content"),formatterLine.format(date)
+                formatter.format(date),BlogData.get("content"),formatterLine.format(date)
                 ,BlogData.get("openid"))>0;
     }
 
@@ -68,7 +68,9 @@ public class BlogDao {
     /*根据博客名查询数据qq*/
     public List<Map<String, Object>> QueryName(String name , String openid){
 
-        String Key ="SELECT `user`,`category`,`content`,`createtime` FROM blog WHERE `name` = ? and openid = ?;";
+//        String Key ="SELECT `user`,`category`,`content`,`createtime` FROM blog WHERE `name` = ? and openid = ?;";
+
+        String Key ="SELECT a.`name`,b.category,b.createtime,b.content FROM `blog` b ,`user` a  WHERE  b.`name`=?  AND b.openid=? AND b.openid = a.openid ;";
 
         return jdbcTemplate.queryForList(Key,name,openid);
     }
@@ -92,7 +94,7 @@ public class BlogDao {
     /*根据博客名查询数据idqq*/
     public List<Map<String, Object>> Queryid(String name , String openid){
 
-        String Key ="SELECT `user`,`id` FROM blog WHERE `name` = ? and openid = ?;";
+        String Key ="SELECT `id` FROM blog WHERE `name` = ? and openid = ?;";
 
         return jdbcTemplate.queryForList(Key,name,openid);
     }
@@ -109,16 +111,17 @@ public class BlogDao {
     public boolean AddBlogComment(Map<String,Object> temp){
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String Key = "INSERT into`comment` (`blogid`,`comment`,`time`,`openid`,`user`) VALUES(?,?,?,?,?);";
+        String Key = "INSERT into`comment` (`blogid`,`comment`,`time`,`openid`) VALUES(?,?,?,?);";
         return jdbcTemplate.update(Key,temp.get("blogid"),temp.get("comment"),formatter.format(date),
-                temp.get("openid"),temp.get("username"))>0;
+                temp.get("openid"))>0;
     }
 
     /*根据id查询评论 */
-    public List<Map<String, Object>> QueryCommentData(int blogid){
+    public List<Map<String, Object>> QueryCommentData(int id){
 
-        String Key = "SELECT `user`,`comment` FROM `comment` where `blogid` = ?;";
-        return jdbcTemplate.queryForList(Key,blogid);
+//        String Key = "SELECT `user`,`comment` FROM `comment` where `blogid` = ?;";
+        String Key = "SELECT a.`name`,a.Head,b.`comment` FROM `comment` b, `user` a where b.`blogid` = ? AND b.openid = a.openid;";
+        return jdbcTemplate.queryForList(Key,id);
 
     }
 

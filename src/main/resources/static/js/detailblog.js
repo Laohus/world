@@ -14,7 +14,7 @@ $(document).ready(function() {
         if (BlogTitle===""){
             return true;
         }
-        const obj = {"BlogTitle": BlogTitle, "ClassLfy": classlfy,"content":content};
+        const obj = {"articleTitle": BlogTitle, "articleClassification": classlfy,"content":content};
 
         $.ajax({
             url:"/AddNewBlog",

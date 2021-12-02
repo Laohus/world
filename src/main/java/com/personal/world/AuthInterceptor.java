@@ -12,33 +12,33 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         HttpSession session = request.getSession();
-        if(session.getAttribute("source") == null){
-            request.getRequestDispatcher("/login").forward(request, response);
-            return false;
-        };
-        if(session.getAttribute("source").equals("system")){
-            if(session.getAttribute("username") == null || session.getId()==null){
-                request.getRequestDispatcher("/login").forward(request, response);
-                return false;
-            }
-            return true;
-        }else if (session.getAttribute("source").equals("qq")){
-            if(session.getAttribute("openid") == null || session.getId()==null){
-                request.getRequestDispatcher("/login").forward(request, response);
-                return false;
-            }
-            return true;
-        }else {
-            request.getRequestDispatcher("/login").forward(request, response);
-            return false;
-        }
-
-
-//        if (session.getAttribute("username") == null || session.getId()==null) {
+//        if(session.getAttribute("source") == null){
+//            request.getRequestDispatcher("/login").forward(request, response);
+//            return false;
+//        };
+//        if(session.getAttribute("source").equals("system")){
+//            if(session.getAttribute("username") == null || session.getId()==null){
+//                request.getRequestDispatcher("/login").forward(request, response);
+//                return false;
+//            }
+//            return true;
+//        }else if (session.getAttribute("source").equals("qq")){
+//            if(session.getAttribute("openid") == null || session.getId()==null){
+//                request.getRequestDispatcher("/login").forward(request, response);
+//                return false;
+//            }
+//            return true;
+//        }else {
 //            request.getRequestDispatcher("/login").forward(request, response);
 //            return false;
 //        }
-//        return true;
+
+
+        if (session.getAttribute("openid") == null || session.getId()==null) {
+            request.getRequestDispatcher("/login").forward(request, response);
+            return false;
+        }
+        return true;
     }
 
 
