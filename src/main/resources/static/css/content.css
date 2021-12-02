@@ -60,7 +60,7 @@
 }
 .comments{
     bottom: 0;
-    height: 600px;
+    /*height: 600px;*/
 }
 
 .Comment_box{
@@ -110,7 +110,6 @@
 .Comment_replyList{
     height: 80%;
     width: 80%;
-    margin-left: 10%;
 }
 .Comment_replyPage{
     height: 20%;

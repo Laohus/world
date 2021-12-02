@@ -111,10 +111,10 @@ $(document).ready(function() {
                                 Comment_replyList.setAttribute("class","Comment_replyList");
                                 Comment_reply.append(Comment_replyList)
 
-                                const Comment_replyPage = document.createElement("div");
-                                Comment_replyPage.setAttribute("class","Comment_replyPage");
-                                Comment_replyPage.setAttribute("id","demo0");
-                                Comment_reply.append(Comment_replyPage)
+                                // const Comment_replyPage = document.createElement("div");
+                                // Comment_replyPage.setAttribute("class","Comment_replyPage");
+                                // Comment_replyPage.setAttribute("id","demo0");
+                                // Comment_reply.append(Comment_replyPage)
 
                                 let flag = true;
                                 $(".Comment_add").click(function() {
@@ -189,13 +189,15 @@ function Addcomment(BlogName){
         data: "comment="+comment+"&BlogName="+BlogName,
         success:function (data) {
             if(data.code==="0"){
-                $("#error").text("");
                 layer.msg("添加评论成功！");
                 $(".Comment_box").val("");
+                setTimeout(function (){
+                    // $("#preview").html(data);
+                    location.reload();
+                },2000);
                 return true;
             }else {
-                $("input[ type='text']").val("");
-                $("#error").text(data.errormsg);
+                layer.msg(data.errormsg);
                 return false;
 
             }
@@ -214,12 +216,10 @@ function Querycomment(BlogName){
         data: "BlogName="+BlogName,
         success:function (data) {
             if(data.code==="0"){
-                $("#error").text("");
-                // layer.msg("查询评论成功！");
+                StitchingComments(data.data);
                 return true;
             }else {
-                $("input[ type='text']").val("");
-                $("#error").text(data.errormsg);
+                layer.msg(data.errormsg);
                 return false;
 
             }
@@ -238,4 +238,26 @@ function UpPadge(){
             ,count: 50
         });
     });
+}
+
+function StitchingComments(ListComment){
+
+    let lineComment= ""
+    let m = ListComment.length;
+    for(let i =0;i<m;i++){
+        let line = "    <li>\n" +
+            "        <div>\n" +
+            "        <div style=\"display:inline-block;border: 1px solid black;border-radius:50%;margin-top: 2px;background-color: indianred\"><img style=\"height: 35px;width: 35px\" src=\""+ListComment[i].Head+"\" alt=\"\"></div>\n" +
+            "        <span style=\"color: black;font-weight: bold\">&nbsp;&nbsp;</span>\n" +
+            "        <span style=\"color: black;font-weight: bold\">"+ListComment[i].name+"</span>\n" +
+            "        <span style=\"color: black;font-weight: bold\">：</span>\n" +
+            "        <span>"+ListComment[i].comment+"</span><br>\n" +
+            "        <span style='margin-top: 1px'>&nbsp;</span>\n" +
+            "        </div>\n" +
+            "    </li>";
+        lineComment = line + lineComment;
+    }
+    $(".Comment_replyList").append("<ul>" + lineComment + "</ul>");
+    return true;
+
 }
