@@ -121,9 +121,11 @@ public class UserDao extends User {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        int n = (int) (1+Math.random()*(26-1+1));
+        String url = "../image/login/"+n+".jpg";
         String Key = "INSERT into`user` (`name`,`password`,`CreationTime`,`age`,`sex`,`source`,`Head`,`openid`) VALUES(?,?,?,?,?,?,?,?);";
         return jdbcTemplate.update(Key,UserData.get("name"),UserData.get("password"),formatter.format(date),
-                UserData.get("age"),UserData.get("sex"),"system","../image/login/avatars.jpg",UserData.get("openid"))>0;
+                UserData.get("age"),UserData.get("sex"),"system",url,UserData.get("openid"))>0;
 
     }
 
