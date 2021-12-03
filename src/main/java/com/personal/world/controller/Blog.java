@@ -7,8 +7,6 @@ import com.personal.world.common.ResultInfo;
 import com.personal.world.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,40 +28,28 @@ public class Blog extends ResponseInfo {
     }
 
     @RequestMapping("/AddNewBlog")
-    public ResultInfo addNewBlog(@RequestBody  @Validated AddBlog addBlog , BindingResult bindingResult , HttpSession session) {
+    public ResultInfo addNewBlog(@RequestBody  @Validated AddBlog addBlog , HttpSession session) {
 
         ResultInfo result = new ResultInfo();
 
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-            String openId = (String) session.getAttribute("openid");
-            String blogTitle = addBlog.getArticleTitle();
-            String classLfy = addBlog.getArticleClassification();
-            String content = addBlog.getContent();
-            Map<String, String> temp = new HashMap<>();
-            temp.put("BlogTitle", blogTitle);
-            temp.put("ClassLfy", classLfy);
-            temp.put("content", content);
-            temp.put("openid", openId);
-            boolean resultBlog = userService.AddBlog(temp);
-            if (resultBlog) {
-                result.setCode(getSUCCESS_CODE());
-                result.setMsg(getACCOUNT_SUCCESS());
-            } else {
-                result.setCode(getFAIL_CODE());
-                result.setErrormsg(getNEW_BLOG());
-            }
+        String openId = (String) session.getAttribute("openid");
+        String blogTitle = addBlog.getArticleTitle();
+        String classLfy = addBlog.getArticleClassification();
+        String content = addBlog.getContent();
+        Map<String, String> temp = new HashMap<>();
+        temp.put("BlogTitle", blogTitle);
+        temp.put("ClassLfy", classLfy);
+        temp.put("content", content);
+        temp.put("openid", openId);
+        boolean resultBlog = userService.AddBlog(temp);
+        if (resultBlog) {
+            result.setCode(getSUCCESS_CODE());
+            result.setMsg(getACCOUNT_SUCCESS());
+        } else {
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getNEW_BLOG());
         }
-
-
         return result;
-
-
     }
 
     @RequestMapping("/blog/timeline")
@@ -99,97 +85,69 @@ public class Blog extends ResponseInfo {
     }
 
     @RequestMapping("/blog/content")
-    public ResultInfo getBlogContent(@Validated BlogDetail blogDetail , BindingResult bindingResult, HttpServletRequest request, HttpSession session) {
+    public ResultInfo getBlogContent(@Validated BlogDetail blogDetail , HttpSession session) {
 
         ResultInfo result = new ResultInfo();
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-            String blogName = request.getParameter("BlogName");
-            String openId = (String) session.getAttribute("openid");
-            List<Map<String, Object>> temp ;
-            temp = userService.QueryName(blogName, openId);
-            result.setCode(getSUCCESS_CODE());
-            result.setMsg(getACCOUNT_SUCCESS());
-            result.setData(temp);
-        }
+        String blogName = blogDetail.getBlogName();
+        String openId = (String) session.getAttribute("openid");
+        List<Map<String, Object>> temp ;
+        temp = userService.QueryName(blogName, openId);
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(temp);
         return result;
-
-
     }
 
     @RequestMapping("/blog/AddComment")
-    public ResultInfo gddComment(@Validated AddComment addComment , BindingResult bindingResult, HttpServletRequest request, HttpSession session) {
+    public ResultInfo gddComment(@Validated AddComment addComment , HttpSession session) {
 
         ResultInfo result = new ResultInfo();
+        String openId = (String) session.getAttribute("openid");
+        String comment = addComment.getComment();
+        String BlogName = addComment.getBlogName();
+        List<Map<String, Object>> temps = null;
+        temps = userService.Queryid(BlogName, openId);
+        if(temps.size()==0){
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getBLOGS_NOTFOUND());
+            return result;
 
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-            String openId = (String) session.getAttribute("openid");
-            String comment = request.getParameter("comment");
-            String BlogName = request.getParameter("BlogName");
-            List<Map<String, Object>> temps = null;
-            temps = userService.Queryid(BlogName, openId);
-            if(temps.size()==0){
-                result.setCode(getFAIL_CODE());
-                result.setErrormsg(getBLOGS_NOTFOUND());
-                return result;
-
-            }
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("blogid", temps.get(0).get("id"));
-            temp.put("comment", comment);
-            temp.put("openid", openId);
-            boolean res = userService.AddBlogComment(temp);
-            if (!res) {
-                result.setCode(getFAIL_CODE());
-                result.setErrormsg(getADD_COMMENT());
-            }
-            result.setCode(getSUCCESS_CODE());
-            result.setMsg(getACCOUNT_SUCCESS());
         }
+        Map<String, Object> temp = new HashMap<>();
+        temp.put("blogid", temps.get(0).get("id"));
+        temp.put("comment", comment);
+        temp.put("openid", openId);
+        boolean res = userService.AddBlogComment(temp);
+        if (!res) {
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getADD_COMMENT());
+        }
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
         return result;
 
 
     }
 
     @RequestMapping("/blog/QueryComment")
-    public ResultInfo queryComment(@Validated Comment comment , BindingResult bindingResult, HttpServletRequest request, HttpSession session) {
+    public ResultInfo queryComment(@Validated Comment comment , HttpSession session) {
 
         ResultInfo result = new ResultInfo();
-
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-            String openId = (String) session.getAttribute("openid");
-            String BlogName = request.getParameter("BlogName");
-            List<Map<String, Object>> temp;
-            temp = userService.Queryid(BlogName, openId);
-            List<Map<String, Object>> CommentData;
-            assert temp != null;
-            if (temp.size() == 0) {
-                result.setCode(getSUCCESS_CODE());
-                result.setMsg(getACCOUNT_SUCCESS());
-                return result;
-            }
-            CommentData = userService.QueryCommentData((Integer) temp.get(0).get("id"));
+        String openId = (String) session.getAttribute("openid");
+        String BlogName = comment.getBlogName();
+        List<Map<String, Object>> temp;
+        temp = userService.Queryid(BlogName, openId);
+        List<Map<String, Object>> CommentData;
+        assert temp != null;
+        if (temp.size() == 0) {
             result.setCode(getSUCCESS_CODE());
             result.setMsg(getACCOUNT_SUCCESS());
-            result.setData(CommentData);
+            return result;
         }
+        CommentData = userService.QueryCommentData((Integer) temp.get(0).get("id"));
+        result.setCode(getSUCCESS_CODE());
+        result.setMsg(getACCOUNT_SUCCESS());
+        result.setData(CommentData);
         return result;
     }
 

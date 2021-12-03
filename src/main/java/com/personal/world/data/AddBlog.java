@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 public class AddBlog {
 
     @NotNull(message = "博客内容参数没有传！")
+    @Length(min = 12,message = "博客内容长度至少为12位！")
     private String content;
 
     @NotNull(message = "博客分类参数没有传！")

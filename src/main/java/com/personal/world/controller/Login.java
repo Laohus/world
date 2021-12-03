@@ -7,8 +7,6 @@ import com.personal.world.data.UserAccountQQ;
 import com.personal.world.data.UserRegisters;
 import com.personal.world.service.Md5Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,61 +38,47 @@ public class Login extends ResponseInfo {
     }
 
     @RequestMapping("/login/Registers")
-    public ResultInfo loginRegisters (@Validated UserRegisters userInformation , BindingResult bindingResult, HttpServletRequest request){
+    public ResultInfo loginRegisters (@Validated UserRegisters userInformation ){
 
         ResultInfo result = new ResultInfo();
 
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-            String userName = request.getParameter("username");
-            String passWord = request.getParameter("password");
-            String age = request.getParameter("age");
-            String sex = request.getParameter("sex");
-            String resultUser = userService.QueryUser(userName);
-            if (resultUser.equals("0")) {
-                String openId = Md5Message.GetMad5(userName + passWord);
-                Map<String, String> temp = new HashMap<>();
-                temp.put("name", userName);
-                temp.put("password", passWord);
-                temp.put("age", age);
-                temp.put("sex", sex);
-                temp.put("openid", openId);
-                boolean ResultRegisters = userService.adduserSystem(temp);
-                if (ResultRegisters) {
-                    result.setCode(getSUCCESS_CODE());
-                    result.setMsg(getACCOUNT_SUCCESS());
-                } else {
-                    result.setCode(getFAIL_CODE());
-                    result.setErrormsg(getREGISTERED_USERS_ERROR());
-                }
+        String userName = userInformation.getUsername();
+        String passWord = userInformation.getPassword();
+        String age = userInformation.getAge();
+        String sex = userInformation.getSex();
+        String resultUser = userService.QueryUser(userName);
+        if (resultUser.equals("0")) {
+            String openId = Md5Message.GetMad5(userName + passWord);
+            Map<String, String> temp = new HashMap<>();
+            temp.put("name", userName);
+            temp.put("password", passWord);
+            temp.put("age", age);
+            temp.put("sex", sex);
+            temp.put("openid", openId);
+            boolean ResultRegisters = userService.adduserSystem(temp);
+            if (ResultRegisters) {
+                result.setCode(getSUCCESS_CODE());
+                result.setMsg(getACCOUNT_SUCCESS());
             } else {
                 result.setCode(getFAIL_CODE());
-                result.setErrormsg(getACCOUNT_FOUNDED());
-
+                result.setErrormsg(getREGISTERED_USERS_ERROR());
             }
+        } else {
+            result.setCode(getFAIL_CODE());
+            result.setErrormsg(getACCOUNT_FOUNDED());
+
         }
         return result;
 
     }
 
     @RequestMapping("/login/account")
-    public ResultInfo loginAccount (@Validated UserAccount userAccount , BindingResult bindingResult, HttpServletRequest request , HttpSession session){
+    public ResultInfo loginAccount (@Validated UserAccount userAccount  , HttpSession session){
 
         ResultInfo result = new ResultInfo();
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
-        String userName = request.getParameter("username");
-        String passWord = request.getParameter("password");
+
+        String userName = userAccount.getUsername();
+        String passWord = userAccount.getPassword();
         String resultUser = userService.QueryUser(userName);
         if(resultUser.equals("1")){
             String resultModPassword = userService.QueryUserPass(userName,passWord);
@@ -111,22 +95,23 @@ public class Login extends ResponseInfo {
         }else {
             result.setCode(getFAIL_CODE());
             result.setErrormsg(getACCOUNT_NO_FOUND());
-        }}
+        }
+
         return result;
 
     }
 
     @RequestMapping("/login/qq")
-    public ResultInfo loginAccountQQ (@RequestBody  @Validated UserAccountQQ userAccountQQ , BindingResult bindingResult , HttpSession session){
+    public ResultInfo loginAccountQQ (@RequestBody  @Validated UserAccountQQ userAccountQQ , HttpSession session){
 
         ResultInfo result = new ResultInfo();
-        if(bindingResult.hasErrors()){
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                result.setErrormsg(error.getDefaultMessage());
-                result.setCode(getFAIL_CODE());
-                return result;
-            }
-        }else {
+//        if(bindingResult.hasErrors()){
+//            for (ObjectError error : bindingResult.getAllErrors()) {
+//                result.setErrormsg(error.getDefaultMessage());
+//                result.setCode(getFAIL_CODE());
+//                return result;
+//            }
+//        }else {
             Map<String,String> userData = new HashMap<>();
             userData.put("name",userAccountQQ.getNickname());
             userData.put("password","");
@@ -157,7 +142,7 @@ public class Login extends ResponseInfo {
                 }else {
                     result.setCode(getFAIL_CODE());
                     result.setErrormsg(getADD_INFORMATION());
-                }
+//                }
 
             }}
         return result;
