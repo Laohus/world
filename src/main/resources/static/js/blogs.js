@@ -12,18 +12,67 @@ $(document).ready(function() {
     });
 
 
-    $("#logout").click(function() {
+    $("#NovelSearch").click(function() {
 
         $.ajax({
-            url:"/LoginOut",
-            type:"POST",
-            datatype:"JSON",
-            success:function (data) {
-                $(location).prop("href","/login")
-                return true;
+            url: "/Book/Name",
+            type: "POST",
+            datatype: "JSON",
+            data: "BookName=" + $(".search_name").val(),
+            success: function (data) {
+                if (data.code === "0") {
+                    layer.msg("已查询查到小说文本，正在加载目录中...");
+
+                    $.ajax({
+                        url:"/Book/Novel",
+                        type:"POST",
+                        datatype:"JSON",
+                        data: "NovelDirectory=" + data.data,
+                        success:function (data) {
+                            if (data.code === "0") {
+                                layer.msg("加载目录成功！");
+                                const listNovel = AddNovel(data.data);
+                                layui.use(['tree', 'util'], function(){
+                                    const tree = layui.tree
+                                        , layer = layui.layer
+                                        , util = layui.util
+                                        ,data1 = listNovel
+                                    tree.render({
+                                        elem: '#NovelDirectory' //默认是点击节点可进行收缩
+                                        ,data: data1
+                                    });
+                                });
+                                return true;
+
+                        }else {
+                                layer.msg(data.errormsg);
+                                return false;
+                            }
+                        }
+                    })
+                    return true;
+                } else {
+                    layer.msg(data.errormsg);
+                    return false;
+
+                }
 
             }
         })
+    });
+
+        $("#logout").click(function() {
+
+            $.ajax({
+                url:"/LoginOut",
+                type:"POST",
+                datatype:"JSON",
+                success:function (data) {
+                    $(location).prop("href","/login")
+                    return true;
+
+                }
+            })
 
     });
 
@@ -84,5 +133,23 @@ function AddName(name){
 
     }
     return lineName;
+}
 
+function AddNovel(Novel){
+    // const NovelJson = JSON.parse(Novel);
+    const NovelJson = Novel;
+    const List = [];
+    for (let i=0; i<NovelJson.length; i++){
+        const NovelName = NovelJson[i].BigChapter;
+        const NovelNames = NovelJson[i].NovelName;
+        const List2 = [];
+        for (let j=0; j<NovelNames.length; j++){
+            const NovelNames_t = NovelNames[j];
+            const a = {title: NovelNames_t,id: j};
+            List2[j] = a;
+        }
+        const b = {title:  NovelName ,id:  i ,children: List2};
+        List[i] = b;
+    }
+    return List;
 }

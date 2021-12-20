@@ -1696,7 +1696,7 @@ body {
 * {
     position: relative;
 }
-*:before, *:after {
-    position: absolute;
-    content: "";
-}
+/**:before, *:after {*/
+/*    position: absolute;*/
+/*    content: "";*/
+/*}*/

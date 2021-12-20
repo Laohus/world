@@ -192,7 +192,7 @@ function Addcomment(BlogName){
                 layer.msg("添加评论成功！");
                 $(".Comment_box").val("");
                 setTimeout(function (){
-                    // $("#preview").html(data);
+                    // $("#preview").reload();
                     location.reload();
                 },2000);
                 return true;
@@ -246,13 +246,13 @@ function StitchingComments(ListComment){
     let m = ListComment.length;
     for(let i =0;i<m;i++){
         let line = "    <li>\n" +
-            "        <div>\n" +
+            "        <div style='border-bottom: 1px solid #dadde0;'>\n" +
             "        <div style=\"display:inline-block;border: 1px solid black;border-radius:50%;margin-top: 2px;background-color: indianred\"><img style=\"height: 35px;width: 35px\" src=\""+ListComment[i].Head+"\" alt=\"\"></div>\n" +
             "        <span style=\"color: black;font-weight: bold\">&nbsp;&nbsp;</span>\n" +
             "        <span style=\"color: black;font-weight: bold\">"+ListComment[i].name+"</span>\n" +
             "        <span style=\"color: black;font-weight: bold\">：</span>\n" +
             "        <span>"+ListComment[i].comment+"</span><br>\n" +
-            "        <span style='margin-top: 1px'>&nbsp;</span>\n" +
+            "        <span style='margin-top: 0px'>&nbsp;</span>\n" +
             "        </div>\n" +
             "    </li>";
         lineComment = line + lineComment;
