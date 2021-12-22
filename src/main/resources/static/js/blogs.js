@@ -42,6 +42,7 @@ $(document).ready(function() {
                                         ,data: data1
                                     });
                                 });
+                                // $("#NovelDirectory").setAttribute("style","position: static");
                                 return true;
 
                         }else {

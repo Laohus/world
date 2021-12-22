@@ -69,6 +69,9 @@ img:hover{
 
     height: 23%;
     width: 100%;
+    color: white;
+    margin-left: 40px;
+    line-height: 30px;
 
 }
 .layui-laydate-content, .layui-laydate-footer{
@@ -136,5 +139,6 @@ img:hover{
     border: 1px solid #e0e6ed;
     box-shadow: 0 4px 6px 0 rgb(85 85 85 / 9%), 0 1px 20px 0 rgb(0 0 0 / 8%), 0px 1px 11px 0px rgb(0 0 0 / 6%);
 }
+
 
 
