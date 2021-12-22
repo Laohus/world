@@ -123,7 +123,10 @@ public class StartingPointBook{
                     Elements NovelFreeTextTitleId = docNovelText.select("div.text-head > a");
                     String ContentId = NovelFreeTextTitleId.attr("data-cid");
                     Elements NovelFreeText = docNovelText.select("#j_" + ContentId + " p");
-                    Content = NovelFreeText.text().replace(" 　　", "");
+//                    Content = NovelFreeText.text().replace(" 　　", "");
+//                    System.out.println(docNovelText.select("#j_" + ContentId));
+//                    Content = NovelFreeText.text();
+                    Content = docNovelText.select("#j_" + ContentId).toString();
                     break;
                 }
             }

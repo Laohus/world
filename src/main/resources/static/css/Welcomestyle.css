@@ -134,10 +134,16 @@ img:hover{
     width: 78%;
     margin-top: 10%;
     margin-left: 20%;
-    background-color: white;
+    overflow-y:scroll;
+    /*overflow-x:scroll;*/
+    background-color: #e2eee2 ;
     border-radius: 15px;
     border: 1px solid #e0e6ed;
     box-shadow: 0 4px 6px 0 rgb(85 85 85 / 9%), 0 1px 20px 0 rgb(0 0 0 / 8%), 0px 1px 11px 0px rgb(0 0 0 / 6%);
+}
+.read-content p{
+    font-size: 18px;
+    line-height: 1.8;
 }
 
 

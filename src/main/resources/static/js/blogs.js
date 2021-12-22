@@ -38,11 +38,32 @@ $(document).ready(function() {
                                         , util = layui.util
                                         ,data1 = listNovel
                                     tree.render({
-                                        elem: '#NovelDirectory' //默认是点击节点可进行收缩
+                                        elem: '#NovelDirectory'
                                         ,data: data1
+                                        ,click: function (obj){
+                                            $.ajax({
+                                                url:"/Book/Content",
+                                                type:"POST",
+                                                datatype:"JSON",
+                                                data: "BookNovel=" + obj.data.title+"&BookName="+ $(".search_name").val(),
+                                                success:function (data) {
+                                                    if (data.code === "0") {
+                                                        layer.msg("加载内容成功！");
+                                                        $("#Novel_content").empty();
+                                                        setTimeout(function (){
+                                                            $("#Novel_content").append(data.data);
+                                                        },1000)
+                                                        return true;
+                                                    }else {
+                                                        layer.msg(data.errormsg);
+                                                        return false;
+                                                    }
+                                                }
+                                            })
+
+                                        }
                                     });
                                 });
-                                // $("#NovelDirectory").setAttribute("style","position: static");
                                 return true;
 
                         }else {
