@@ -10,6 +10,11 @@ $(document).ready(function() {
         $(location).prop("href","/Blog")
         return true;
     });
+    $("#play").click(function() {
+
+        $(location).prop("href","/Money")
+        return true;
+    });
 
 
     $("#NovelSearch").click(function() {
