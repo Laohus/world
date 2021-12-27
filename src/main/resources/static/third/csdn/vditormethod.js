@@ -24,6 +24,7 @@
  * SOFTWARE.
  *
  */
+
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -71,7 +72,8 @@ var Constants = /** @class */ (function () {
         "swift", "ini", "typescript", "vbnet", "yaml",
         "ada", "clojure", "dart", "erb", "fortran", "gradle", "haskell", "julia", "julia-repl", "lisp", "matlab",
         "pgsql", "powershell", "sql_more", "stata", "cmake", "mathematica"];
-    Constants.CDN = "https://cdn.jsdelivr.net/npm/vditor@" + "3.8.7";
+    // Constants.CDN = "https://cdn.jsdelivr.net/npm/vditor@" + "3.8.7";
+    Constants.CDN = "../third/vditor";
     Constants.MARKDOWN_OPTIONS = {
         autoSpace: false,
         codeBlockPreview: true,
@@ -2212,7 +2214,7 @@ var previewRender = function (previewElement, markdown, options) { return __awai
                         throw new Error("options.lang error, see https://ld246.com/article/1549638745630#options");
                     }
                     else {
-                        (0,addScript/* addScriptSync */.J)(mergedOptions.cdn + "/dist/js/i18n/" + mergedOptions.lang + ".js", "vditorI18nScript");
+                        (0,addScript/* addScriptSync */.J)(mergedOptions.cdn + "/dist/js/i18n//zh_CN.js", "vditorI18nScript");
                     }
                 }
                 else {
